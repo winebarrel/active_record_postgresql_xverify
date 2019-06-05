@@ -1,0 +1,16 @@
+AllCops:
+  Exclude:
+    - 'gemfiles/**/*'
+  TargetRubyVersion: 2.3
+Metrics/BlockLength:
+  Enabled: false
+Metrics/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
