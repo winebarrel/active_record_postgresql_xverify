@@ -10,7 +10,7 @@ rvm:
   - 2.6.3
 before_install:
   - docker-compose up -d
-  - function pg_ping { PGPASSWORD=postgres pg_isready -U postgres -h 127.0.0.1 -p 12345 2>/dev/null; }
+  - function pg_ping { PGPASSWORD=postgres pg_isready -U postgres -h 127.0.0.1 -p 12345 >/dev/null 2>/dev/null; }
   - for i in {1..60}; do pg_ping && break; sleep 1; done
 script:
   - bundle exec rake
