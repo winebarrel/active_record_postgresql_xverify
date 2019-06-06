@@ -41,15 +41,12 @@ RSpec.configure do |config|
     end
 
     @pg = PG.connect(pg_params.merge(dbname: conn_spec.fetch(:database)))
+    @pg.query('DROP TABLE IF EXISTS books')
 
     begin
       @pg.query('CREATE TABLE books (id INT PRIMARY KEY)')
     rescue PG::DuplicateTable # rubocop:disable Lint/HandleExceptions
     end
-  end
-
-  config.after :all do
-    @pg.query('DROP TABLE IF EXISTS books')
   end
 end
 

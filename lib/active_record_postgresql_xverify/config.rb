@@ -4,14 +4,7 @@ module ActiveRecordPostgresqlXverify
   @config = {
     handle_if: ->(_) { true },
     only_on_error: true,
-    verify: lambda do |conn|
-      begin
-        conn.query 'SELECT 1'
-        true
-      rescue PG::Error
-        false
-      end
-    end,
+    verify: ->(conn) { ActiveRecordPostgresqlXverify::Utils.pg_ping(conn) },
   }
 
   class << self
