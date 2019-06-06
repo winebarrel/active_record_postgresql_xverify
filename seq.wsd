@@ -1,0 +1,38 @@
+@startuml{seq.png}
+
+actor Client
+participant Rails
+participant "Connection pool" as cp
+participant "<size:10>active_recode_postgresql_xverify</size>" as arsx
+participant PostgreSQL
+
+Client -> Rails : Request
+activate Rails
+Rails -> PostgreSQL : Query
+activate PostgreSQL
+group neg
+  Rails <-- PostgreSQL : <font color=red>PG::ReadOnlySqlTransaction</font>
+  deactivate PostgreSQL
+  Client <-- Rails : <font color=red>Error</font>
+  deactivate Rails
+end
+
+Client -> Rails : Request
+activate Rails
+Rails -> cp : checkout
+activate cp
+cp -> arsx : active?
+activate arsx
+arsx -> PostgreSQL : Fetch "transaction_read_only"
+activate PostgreSQL
+arsx <-- PostgreSQL : "on"
+deactivate PostgreSQL
+cp <-- arsx : false
+deactivate arsx
+cp --> PostgreSQL : reconnect!
+activate PostgreSQL
+deactivate PostgreSQL
+Rails <-- cp : Connection
+deactivate cp
+
+@enduml
