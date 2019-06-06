@@ -61,5 +61,21 @@ module SpecHelper
   def pg_backend_pid(model)
     model.connection.query('select pg_backend_pid()').first.fetch(0)
   end
+
+  def pid_changes(model)
+    prev_process_id = pg_backend_pid(model)
+    active_record_release_connections
+    yield
+    curr_process_id = pg_backend_pid(model)
+    expect(curr_process_id).to_not eq prev_process_id
+  end
+
+  def pid_does_not_change(model)
+    prev_process_id = pg_backend_pid(model)
+    active_record_release_connections
+    yield
+    curr_process_id = pg_backend_pid(model)
+    expect(curr_process_id).to eq prev_process_id
+  end
 end
 include SpecHelper # rubocop:disable Style/MixinUsage
