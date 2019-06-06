@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe ActiveRecordPostgresqlXverify::Utils do
-  specify 'pg_ping succeed' do
+  specify 'pg_ping succeeds' do
     expect(ActiveRecordPostgresqlXverify::Utils.pg_ping(@pg)).to be_truthy
   end
 
