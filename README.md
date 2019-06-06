@@ -1,9 +1,15 @@
 # active_record_postgresql_xverify
 
-It is a library that performs extended verification when an error occurs when executing SQL.
+It is a library to solve Amazon RDS failover problems.
+
+cf. https://github.com/brianmario/mysql2/issues/948
 
 [![Gem Version](https://badge.fury.io/rb/active_record_postgresql_xverify.svg)](http://badge.fury.io/rb/active_record_postgresql_xverify)
 [![Build Status](https://travis-ci.org/winebarrel/active_record_postgresql_xverify.svg?branch=master)](https://travis-ci.org/winebarrel/active_record_postgresql_xverify)
+
+## How it works
+
+![](https://user-images.githubusercontent.com/117768/59006968-7ce27f80-885f-11e9-9c4a-a71ecb679c9c.png)
 
 ## Installation
 
