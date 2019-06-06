@@ -111,6 +111,6 @@ docker-compose up -d
 bundle exec appraisal ar52 rake
 ```
 
-# Related links
+## Related links
 
 * https://github.com/winebarrel/activerecord-mysql-reconnect
