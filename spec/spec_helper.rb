@@ -57,5 +57,9 @@ module SpecHelper
   def active_record_release_connections
     ActiveRecord::Base.connection_handler.connection_pool_list.each(&:release_connection)
   end
+
+  def pg_backend_pid(model)
+    model.connection.query('select pg_backend_pid()').first.fetch(0)
+  end
 end
 include SpecHelper # rubocop:disable Style/MixinUsage

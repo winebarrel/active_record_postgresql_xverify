@@ -32,12 +32,12 @@ RSpec.describe ActiveRecordPostgresqlXverify do
       ).twice
 
       expect(Book.count).to be_zero
-      prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+      prev_process_id = pg_backend_pid(Book)
 
       active_record_release_connections
 
       expect(Book.count).to be_zero
-      curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+      curr_process_id = pg_backend_pid(Book)
       expect(curr_process_id).to_not eq prev_process_id
 
       expect(called[:verify]).to be_truthy
@@ -53,12 +53,12 @@ RSpec.describe ActiveRecordPostgresqlXverify do
         expect(Book.connection.prepared_statements).to be_truthy
 
         expect(Book.find_by_id(-1)).to be_nil
-        prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+        prev_process_id = pg_backend_pid(Book)
 
         active_record_release_connections
 
         expect(Book.find_by_id(-1)).to be_nil
-        curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+        curr_process_id = pg_backend_pid(Book)
         expect(curr_process_id).to_not eq prev_process_id
 
         expect(called[:verify]).to be_truthy
@@ -79,12 +79,12 @@ RSpec.describe ActiveRecordPostgresqlXverify do
       expect(ActiveRecordPostgresqlXverify.logger).to_not receive(:info)
 
       expect(Book.count).to be_zero
-      prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+      prev_process_id = pg_backend_pid(Book)
 
       active_record_release_connections
 
       expect(Book.count).to be_zero
-      curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+      curr_process_id = pg_backend_pid(Book)
       expect(curr_process_id).to eq prev_process_id
 
       expect(called[:verify]).to be_truthy
@@ -96,12 +96,12 @@ RSpec.describe ActiveRecordPostgresqlXverify do
         expect(Book.connection.prepared_statements).to be_truthy
 
         expect(Book.find_by_id(-1)).to be_nil
-        prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+        prev_process_id = pg_backend_pid(Book)
 
         active_record_release_connections
 
         expect(Book.find_by_id(-1)).to be_nil
-        curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+        curr_process_id = pg_backend_pid(Book)
         expect(curr_process_id).to eq prev_process_id
 
         expect(called[:verify]).to be_truthy
@@ -118,12 +118,12 @@ RSpec.describe ActiveRecordPostgresqlXverify do
         expect(ActiveRecordPostgresqlXverify.logger).to_not receive(:info)
 
         expect(Book.count).to be_zero
-        prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+        prev_process_id = pg_backend_pid(Book)
 
         active_record_release_connections
 
         expect(Book.count).to be_zero
-        curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+        curr_process_id = pg_backend_pid(Book)
         expect(curr_process_id).to eq prev_process_id
 
         expect(called[:verify]).to be_falsey
@@ -140,22 +140,22 @@ RSpec.describe ActiveRecordPostgresqlXverify do
 
           # execute
           expect { Book.connection.execute('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
-          prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          prev_process_id = pg_backend_pid(Book)
 
           active_record_release_connections
 
           expect(Book.count).to be_zero
-          curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          curr_process_id = pg_backend_pid(Book)
           expect(curr_process_id).to_not eq prev_process_id
 
           # exec_query
           expect { Book.connection.exec_query('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
-          prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          prev_process_id = pg_backend_pid(Book)
 
           active_record_release_connections
 
           expect(Book.count).to be_zero
-          curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          curr_process_id = pg_backend_pid(Book)
           expect(curr_process_id).to_not eq prev_process_id
 
           expect(called[:verify]).to be_truthy
@@ -176,22 +176,22 @@ RSpec.describe ActiveRecordPostgresqlXverify do
 
           # execute
           expect { Book.connection.execute('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
-          prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          prev_process_id = pg_backend_pid(Book)
 
           active_record_release_connections
 
           expect(Book.count).to be_zero
-          curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          curr_process_id = pg_backend_pid(Book)
           expect(curr_process_id).to eq prev_process_id
 
           # exec_query
           expect { Book.connection.exec_query('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
-          prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          prev_process_id = pg_backend_pid(Book)
 
           active_record_release_connections
 
           expect(Book.count).to be_zero
-          curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+          curr_process_id = pg_backend_pid(Book)
           expect(curr_process_id).to eq prev_process_id
 
           expect(called[:verify]).to be_truthy
@@ -213,12 +213,12 @@ RSpec.describe ActiveRecordPostgresqlXverify do
       expect(ActiveRecordPostgresqlXverify.logger).to_not receive(:info)
 
       expect(Book.count).to be_zero
-      prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+      prev_process_id = pg_backend_pid(Book)
 
       active_record_release_connections
 
       expect(Book.count).to be_zero
-      curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+      curr_process_id = pg_backend_pid(Book)
       expect(curr_process_id).to eq prev_process_id
 
       expect(called[:verify]).to be_falsey
