@@ -113,4 +113,4 @@ bundle exec appraisal ar52 rake
 
 ## Related links
 
-* https://github.com/winebarrel/activerecord-mysql-reconnect
+* https://github.com/winebarrel/active_record_mysql_xverify
