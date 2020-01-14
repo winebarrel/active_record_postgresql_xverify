@@ -121,7 +121,7 @@ RSpec.describe ActiveRecordPostgresqlXverify do
         it 'is reconnecting' do
           expect(ActiveRecordPostgresqlXverify.logger).to receive(:info).with(
             /Invalid connection: host=[^,]+, database=[^,]+, username=\S+/
-          ).twice
+          ).at_least(:once)
 
           # execute
           expect { Book.connection.execute('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
@@ -130,11 +130,14 @@ RSpec.describe ActiveRecordPostgresqlXverify do
             expect(Book.count).to be_zero
           end
 
-          # exec_query
-          expect { Book.connection.exec_query('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
+          # NOTE: Arproxy does not hook #exec_query
+          unless defined?(Arproxy)
+            # exec_query
+            expect { Book.connection.exec_query('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
 
-          pid_changes(Book) do
-            expect(Book.count).to be_zero
+            pid_changes(Book) do
+              expect(Book.count).to be_zero
+            end
           end
 
           expect(called[:verify]).to be_truthy

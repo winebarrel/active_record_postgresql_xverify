@@ -2,7 +2,7 @@
 
 require 'bundler/setup'
 require 'active_record'
-require 'active_record_postgresql_xverify'
+require 'arproxy_helper'
 require 'model/book.rb'
 
 RSpec.configure do |config|

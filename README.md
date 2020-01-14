@@ -110,6 +110,27 @@ end
 #   ActiveRecordPostgresqlXverify.verify = ActiveRecordPostgresqlXverify::Verifiers::AURORA_MASTER
 ```
 
+### When using with Arproxy
+
+Please add following settings when using with [Arproxy](https://github.com/cookpad/arproxy).
+
+```ruby
+# Gemfile
+gem 'active_record_postgresql_xverify', require: false
+```
+
+```ruby
+# config/initializers/arproxy.rb
+require 'active_record_postgresql_xverify_for_arproxy'
+
+Arproxy.configure do |config|
+  config.use ActiveRecordPostgresqlXverify::ArproxyErrorHandler
+    # Any other arproxy settings...
+    config.use Blouson::SensitiveTableQueryLogSilencer
+  end
+end
+```
+
 ## Test
 
 ```

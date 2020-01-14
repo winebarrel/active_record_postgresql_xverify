@@ -1,6 +1,6 @@
 AllCops:
   Exclude:
-    - 'gemfiles/**/*'
+    - "gemfiles/**/*"
   TargetRubyVersion: 2.3
 Metrics/BlockLength:
   Enabled: false
