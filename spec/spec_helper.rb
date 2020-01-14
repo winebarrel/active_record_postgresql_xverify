@@ -37,7 +37,7 @@ RSpec.configure do |config|
 
     begin
       PG.connect(pg_params.merge(dbname: 'postgres')).query('CREATE DATABASE bookshelf')
-    rescue PG::DuplicateDatabase # rubocop:disable Lint/HandleExceptions
+    rescue PG::DuplicateDatabase # rubocop:disable Lint/SuppressedException
     end
 
     @pg = PG.connect(pg_params.merge(dbname: conn_spec.fetch(:database)))
@@ -45,7 +45,7 @@ RSpec.configure do |config|
 
     begin
       @pg.query('CREATE TABLE books (id INT PRIMARY KEY)')
-    rescue PG::DuplicateTable # rubocop:disable Lint/HandleExceptions
+    rescue PG::DuplicateTable # rubocop:disable Lint/SuppressedException
     end
   end
 end
