@@ -8,7 +8,7 @@ Metrics/LineLength:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 Style/Documentation:
   Enabled: false
