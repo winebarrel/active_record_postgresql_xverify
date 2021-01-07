@@ -1,0 +1,55 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - 2.4
+          - 2.5
+          - 2.6
+          - 2.7
+        gemfile:
+          - gemfiles/ar50.gemfile
+          - gemfiles/ar51.gemfile
+          - gemfiles/ar52.gemfile
+          - gemfiles/ar60.gemfile
+        exclude:
+          - ruby: 2.4
+            gemfile: gemfiles/ar60.gemfile
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - uses: actions/cache@v2
+        with:
+          path: gemfiles/vendor/bundle
+          key: ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.gemfile }}-${{ hashFiles('ridgepole.gemspec', '**/Gemfile', '${{ matrix.gemfile }}') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.gemfile }}-
+
+      - name: Setup dependencies
+        run: |
+          for i in {1..60}; do docker-compose up -d && break; sleep 1; done
+
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+          function pg_ping { PGPASSWORD=postgres pg_isready -U postgres -h 127.0.0.1 -p 12345 >/dev/null 2>/dev/null; }
+          for i in {1..60}; do pg_ping && break; sleep 1; done
+        env:
+          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+
+      - name: Run tests
+        run: bundle exec rake
+        env:
+          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
