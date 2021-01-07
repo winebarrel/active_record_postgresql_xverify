@@ -5,14 +5,14 @@ module ActiveRecordPostgresqlXverify
     def active?
       if _extend_verify?
         is_active = begin
-                      verifier = ActiveRecordPostgresqlXverify.verify
-                      verifier.call(@connection)
-                    rescue StandardError => e
-                      ActiveRecordPostgresqlXverify.logger.warn("Connection verification failed: #{_build_verify_error_message(e)}")
-                      false
-                    ensure
-                      Thread.current[ActiveRecordPostgresqlXverify::EXTEND_VERIFY_FLAG] = false
-                    end
+          verifier = ActiveRecordPostgresqlXverify.verify
+          verifier.call(@connection)
+        rescue StandardError => e
+          ActiveRecordPostgresqlXverify.logger.warn("Connection verification failed: #{_build_verify_error_message(e)}")
+          false
+        ensure
+          Thread.current[ActiveRecordPostgresqlXverify::EXTEND_VERIFY_FLAG] = false
+        end
 
         unless is_active
           ActiveRecordPostgresqlXverify.logger.info(
