@@ -9,7 +9,7 @@ module ActiveRecordPostgresqlXverify
       raise
     end
 
-    def execute_and_clear(*)
+    def execute_and_clear(*, **)
       super
     rescue StandardError
       _flag_extend_verify!
