@@ -32,7 +32,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.gemfile }}-${{ hashFiles('ridgepole.gemspec', '**/Gemfile', '${{ matrix.gemfile }}') }}
+          key: ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.gemfile }}-
           restore-keys: |
             ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.gemfile }}-
       - name: Setup dependencies
