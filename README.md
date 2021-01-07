@@ -7,6 +7,7 @@ cf. https://github.com/brianmario/mysql2/issues/948
 **Note: This library does not retry queries. Just reconnect.**
 
 [![Gem Version](https://badge.fury.io/rb/active_record_postgresql_xverify.svg)](http://badge.fury.io/rb/active_record_postgresql_xverify)
+[![Build Status](https://github.com/winebarrel/active_record_postgresql_xverify/workflows/test/badge.svg?branch=master)](https://github.com/winebarrel/active_record_postgresql_xverify/actions)
 
 ## How it works
 
