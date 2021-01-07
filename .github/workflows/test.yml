@@ -31,7 +31,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
       - uses: actions/cache@v2
         with:
-          path: vendor/bundle
+          path: gemfiles/vendor/bundle
           key: ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.gemfile }}
           restore-keys: |
             ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.gemfile }}
