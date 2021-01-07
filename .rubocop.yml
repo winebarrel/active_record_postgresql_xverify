@@ -1,7 +1,8 @@
 AllCops:
   Exclude:
     - 'gemfiles/**/*'
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
+  NewCops: enable
 Metrics/BlockLength:
   Enabled: false
 Metrics/LineLength:

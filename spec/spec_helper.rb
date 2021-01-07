@@ -3,7 +3,7 @@
 require 'bundler/setup'
 require 'active_record'
 require 'active_record_postgresql_xverify'
-require 'model/book.rb'
+require 'model/book'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
