@@ -9,7 +9,7 @@ module ActiveRecordPostgresqlXverify
       end
 
       def pg_ping(conn)
-        conn.query 'SELECT 1'
+        conn.query ''
         true
       rescue PG::Error
         false
