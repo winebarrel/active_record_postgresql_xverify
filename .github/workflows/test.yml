@@ -36,6 +36,9 @@ jobs:
           - gemfiles/ar70.gemfile
           - gemfiles/ar71.gemfile
 
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -44,5 +47,3 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: bundle exec rake
-        env:
-          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
