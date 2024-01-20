@@ -3,9 +3,10 @@ AllCops:
     - 'gemfiles/**/*'
   TargetRubyVersion: 2.4
   NewCops: enable
+  SuggestExtensions: false
 Metrics/BlockLength:
   Enabled: false
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
