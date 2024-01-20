@@ -17,7 +17,7 @@ jobs:
       mysql:
         image: postgres:latest
         ports:
-          - 5432:5432
+          - 12345:5432
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
         options: --health-cmd pg_isready --health-interval 1s --health-timeout 3s --health-retries 60
