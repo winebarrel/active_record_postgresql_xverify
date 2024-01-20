@@ -3,10 +3,10 @@
 module ActiveRecordPostgresqlXverify
   module Verifier
     def active?
-      if _extend_verify?
+      if (@raw_connection || @connection) && _extend_verify?
         is_active = begin
           verifier = ActiveRecordPostgresqlXverify.verify
-          verifier.call(@connection)
+          verifier.call(@raw_connection || @connection)
         rescue StandardError => e
           ActiveRecordPostgresqlXverify.logger.warn("Connection verification failed: #{_build_verify_error_message(e)}")
           false
@@ -16,7 +16,7 @@ module ActiveRecordPostgresqlXverify
 
         unless is_active
           ActiveRecordPostgresqlXverify.logger.info(
-            "Invalid connection: #{ActiveRecordPostgresqlXverify::Utils.pg_connection_info(@connection)}"
+            "Invalid connection: #{ActiveRecordPostgresqlXverify::Utils.pg_connection_info(@raw_connection || @connection)}"
           )
         end
 
@@ -27,7 +27,7 @@ module ActiveRecordPostgresqlXverify
     end
 
     def _build_verify_error_message(e)
-      "cause: #{e.message} [#{e.class}, " + ActiveRecordPostgresqlXverify::Utils.pg_connection_info(@connection)
+      "cause: #{e.message} [#{e.class}, " + ActiveRecordPostgresqlXverify::Utils.pg_connection_info(@raw_connection || @connection)
     end
 
     def _extend_verify?

@@ -123,7 +123,6 @@ RSpec.describe ActiveRecordPostgresqlXverify do
             /Invalid connection: host=[^,]+, database=[^,]+, username=\S+/
           ).twice
 
-          # execute
           expect { Book.connection.execute('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
 
           pid_changes(Book) do
@@ -153,7 +152,6 @@ RSpec.describe ActiveRecordPostgresqlXverify do
         it 'does not reconnect' do
           expect(ActiveRecordPostgresqlXverify.logger).to_not receive(:info)
 
-          # execute
           expect { Book.connection.execute('INVALID SQL') }.to raise_error(ActiveRecord::StatementInvalid)
 
           pid_does_not_change(Book) do

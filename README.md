@@ -4,7 +4,8 @@ It is a library to solve Amazon RDS failover problems.
 
 cf. https://github.com/brianmario/mysql2/issues/948
 
-**Note: This library does not retry queries. Just reconnect.**
+> [!note]
+> **This library does not retry queries. Just reconnect.**
 
 [![Gem Version](https://badge.fury.io/rb/active_record_postgresql_xverify.svg)](http://badge.fury.io/rb/active_record_postgresql_xverify)
 [![Build Status](https://github.com/winebarrel/active_record_postgresql_xverify/workflows/test/badge.svg?branch=master)](https://github.com/winebarrel/active_record_postgresql_xverify/actions)
@@ -42,7 +43,6 @@ ActiveRecord::Base.establish_connection(
   host:     '127.0.0.1',
   port:      5432,
   username: 'root',
-  password: 'password',
   database: 'bookshelf',
 )
 
@@ -79,13 +79,18 @@ ActiveRecordPostgresqlXverify.only_on_error = false
 # CREATE TABLE bookshelf.books (id INT PRIMARY KEY);
 class Book < ActiveRecord::Base; end
 
+def pg_backend_pid(model)
+  conn = model.connection.instance_variable_get(:@connection) || Book.connection.instance_variable_get(:@raw_connection)
+  conn.backend_pid
+end
+
 Book.count
-prev_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+prev_process_id = pg_backend_pid(Book)
 
 ActiveRecord::Base.connection_handler.connection_pool_list.each(&:release_connection)
 
 Book.count
-curr_process_id = Book.connection.query('select pg_backend_pid()').first.fetch(0)
+curr_process_id = pg_backend_pid(Book)
 
 p curr_process_id == prev_process_id #=> false
 ```
@@ -116,7 +121,7 @@ end
 bundle install
 bundle exec appraisal install
 docker-compose up -d
-bundle exec appraisal ar52 rake
+bundle exec appraisal ar71 rake
 ```
 
 ## Related links

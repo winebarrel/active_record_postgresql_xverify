@@ -21,7 +21,6 @@ RSpec.configure do |config|
       adapter: 'postgresql',
       host: '127.0.0.1',
       username: 'postgres',
-      password: 'postgres',
       database: 'bookshelf',
       port: 12_345,
     }
@@ -32,7 +31,6 @@ RSpec.configure do |config|
       host: conn_spec.fetch(:host),
       port: conn_spec.fetch(:port),
       user: conn_spec.fetch(:username),
-      password: conn_spec.fetch(:password),
     }
 
     begin
@@ -56,7 +54,8 @@ module SpecHelper
   end
 
   def pg_backend_pid(model)
-    model.connection.query('select pg_backend_pid()').first.fetch(0)
+    conn = model.connection.instance_variable_get(:@connection) || Book.connection.instance_variable_get(:@raw_connection)
+    conn.backend_pid
   end
 
   def pid_changes(model)
