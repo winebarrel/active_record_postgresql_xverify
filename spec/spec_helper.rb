@@ -23,6 +23,7 @@ RSpec.configure do |config|
       username: 'postgres',
       database: 'bookshelf',
       port: 12_345,
+      timeout: 5000,
     }
 
     ActiveRecord::Base.establish_connection(conn_spec)
