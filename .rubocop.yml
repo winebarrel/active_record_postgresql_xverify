@@ -1,11 +1,13 @@
 AllCops:
   Exclude:
-    - 'gemfiles/**/*'
-  TargetRubyVersion: 2.4
+    - "gemfiles/**/*"
+    - "vendor/bundle/**/*"
+  TargetRubyVersion: 2.7
   NewCops: enable
+  SuggestExtensions: false
 Metrics/BlockLength:
   Enabled: false
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
@@ -15,3 +17,9 @@ Style/Documentation:
   Enabled: false
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
