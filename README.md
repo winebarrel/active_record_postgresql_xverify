@@ -51,7 +51,7 @@ ActiveRecord::Base.logger.formatter = proc {|_, _, _, message| "#{message}\n" }
 
 ActiveRecordPostgresqlXverify.verify = ->(conn) do
   ping = begin
-           conn.query 'SELECT 1'
+           conn.query ''
            true
          rescue PG::Error
            false
@@ -61,7 +61,7 @@ ActiveRecordPostgresqlXverify.verify = ->(conn) do
 end
 # Default: ->(conn) do
 #            begin
-#              conn.query 'SELECT 1'
+#              conn.query ''
 #              true
 #            rescue PG::Error
 #              false
@@ -75,8 +75,8 @@ end
 ActiveRecordPostgresqlXverify.only_on_error = false
 # Default: true
 
-# CREATE DATABASE bookshelf;
-# CREATE TABLE bookshelf.books (id INT PRIMARY KEY);
+# postgres=> CREATE DATABASE bookshelf;
+# bookshelf=> CREATE TABLE books (id INT PRIMARY KEY);
 class Book < ActiveRecord::Base; end
 
 def pg_backend_pid(model)
@@ -102,14 +102,13 @@ In `config/environments/production.rb`:
 ```ruby
 ActiveRecordPostgresqlXverify.verify = ->(conn) do
   ping = begin
-           conn.query 'SELECT 1'
+           conn.query ''
            true
          rescue PG::Error
            false
          end
 
-  ping && conn.query('show transaction_read_only')
-              .first.fetch('transaction_read_only') == 'off'
+  ping && conn.query('show transaction_read_only').getvalue(0, 0) == 'off'
 end
 # Same as below:
 #   ActiveRecordPostgresqlXverify.verify = ActiveRecordPostgresqlXverify::Verifiers::AURORA_MASTER
