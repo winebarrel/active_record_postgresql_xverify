@@ -7,6 +7,10 @@ cf. https://github.com/brianmario/mysql2/issues/948
 > [!note]
 > **This library does not retry queries. Just reconnect.**
 
+> [!caution]
+> The timing of verify has changed, so it probably won't work properly with Rails 7.1.
+> cf. https://github.com/rails/rails/pull/44576
+
 [![Gem Version](https://badge.fury.io/rb/active_record_postgresql_xverify.svg)](http://badge.fury.io/rb/active_record_postgresql_xverify)
 [![CI](https://github.com/winebarrel/active_record_postgresql_xverify/actions/workflows/ci.yml/badge.svg)](https://github.com/winebarrel/active_record_postgresql_xverify/actions/workflows/ci.yml)
 
